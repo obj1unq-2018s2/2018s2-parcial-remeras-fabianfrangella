@@ -77,4 +77,13 @@ describe "test comercio" {
 		assert.equals(comercio.sucursalesQueVendieronTodosLosTalles(),#{})
 	}
 	
+	test "se cambia el costo de las remeras, las vendidas quedan igual"{
+		var remera1 = new RemeraLisa (color = "Blanco", talle = 34)
+		assert.equals(remera1.costo(),80)
+		var pedidoNuevo = new Pedido(modelo = remera1,cantidad = 1)
+		gerli.registrarPedido(pedidoNuevo)
+		assert.equals(gerli.totalFacturado(),80)
+		remera1.cambiarCostoChica(50)
+		assert.equals(gerli.totalFacturado(),80)
+	}
 }

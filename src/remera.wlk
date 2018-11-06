@@ -3,7 +3,8 @@ class RemeraLisa {
 	var color // String
 	var talle // Numero
 	var coloresBasicos = #{ "Blanco", "Negro", "Gris" }
-
+	var costoRemeraChica = 80
+	var costoRemeraGrande = 100
 	method color() = color
 
 	method talle() = talle
@@ -12,12 +13,19 @@ class RemeraLisa {
 
 	method costoSegunRango() {
 		if (talle.between(32, 40)) {
-			return 80
+			return self.costoRemeraChica()
 		} else {
-			return 100
+			return self.costoRemeraGrande()
 		}
 	}
-
+	method costoRemeraChica() = costoRemeraChica
+	method cambiarCostoChica(nuevoCosto) {
+		costoRemeraChica = nuevoCosto
+	}
+	method costoRemeraGrande() = costoRemeraGrande
+	method cambiarCostoRemeraGrande(nuevoCosto){
+		costoRemeraGrande = nuevoCosto
+	}
 	method porcentajeDeDescuento() = 0.10
 	
 	method costo() {

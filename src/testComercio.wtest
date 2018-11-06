@@ -1,0 +1,32 @@
+import remera.*
+import sucursal.*
+import comercio.*
+
+describe "test comercio" {
+
+	// Empresa
+	var disney = new Empresa(precioPorCopyRight = 100)
+	// Dibujos
+	var elsa = new DibujoSublimado(alto = 10, ancho = 15, empresa = disney)
+	// Remeras
+	var remeraLisa = new RemeraLisa(color = "Blanco", talle = 34)
+	var remeraBordada = new RemeraBordada(color = "Azul", talle = 38, cantColores = 3)
+	var remeraSublimada = new RemeraSublimada(color = "Negro", talle = 42,dibujoSublimado = elsa )
+	
+	// sucursales
+	var avellaneda = new Sucursal(cantidadParaDescuento = 10)
+	var quilmes = new Sucursal(cantidadParaDescuento = 15)
+	var gerli = new Sucursal(cantidadParaDescuento = 5)
+	// comercio
+	var comercio = new Comercio(sucursales = #{avellaneda,quilmes,gerli})
+	// pedidos
+	
+	var pedido1 = new Pedido(modelo = remeraLisa, cantidad=20)
+	var pedido2 = new Pedido(modelo = remeraBordada, cantidad= 18)
+	var pedido3 = new Pedido(modelo = remeraSublimada,cantidad = 10)
+	
+	test "registrar un pedido"{
+		avellaneda.registrarPedido(pedido1)
+		assert.that(avellaneda.pedidos().contains(pedido1))
+	}
+}

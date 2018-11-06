@@ -21,12 +21,60 @@ describe "test comercio" {
 	var comercio = new Comercio(sucursales = #{avellaneda,quilmes,gerli})
 	// pedidos
 	
-	var pedido1 = new Pedido(modelo = remeraLisa, cantidad=20)
-	var pedido2 = new Pedido(modelo = remeraBordada, cantidad= 18)
-	var pedido3 = new Pedido(modelo = remeraSublimada,cantidad = 10)
-	
+	var pedido1 = new Pedido(modelo = remeraLisa, cantidad = 20)
+	var pedido2 = new Pedido(modelo = remeraBordada, cantidad = 18)
+	var pedido3 = new Pedido(modelo = remeraSublimada,cantidad = 40)
+	var pedido4 = new Pedido(modelo = remeraLisa, cantidad = 20)
 	test "registrar un pedido"{
 		avellaneda.registrarPedido(pedido1)
 		assert.that(avellaneda.pedidos().contains(pedido1))
 	}
+	
+	test "total facturado por el comercio"{
+		quilmes.registrarPedido(pedido1)
+		assert.equals(comercio.totalFacturado(),1440)
+	}
+	
+	test "cantidad de pedidos de un color"{
+		quilmes.registrarPedido(pedido1)
+		quilmes.registrarPedido(pedido4)
+		assert.equals(comercio.pedidosRealizados("Blanco"),#{pedido1,pedido4})
+	}
+	
+	test "pedido mas caro" {
+		gerli.registrarPedido(pedido1)
+		gerli.registrarPedido(pedido2)
+		gerli.registrarPedido(pedido3)
+		gerli.registrarPedido(pedido4)
+		assert.equals(gerli.pedidoMasCaro(),pedido3)
+	}
+	
+	test "talles de los que no hubo pedido"{
+		gerli.registrarPedido(pedido1)
+		gerli.registrarPedido(pedido2)
+		assert.equals(comercio.tallesSinPedidosEntre(new Range(42,48)),#{42,43,44,45,46,47,48})
+	}
+	
+	test "sucursal que mas facturo"{
+		gerli.registrarPedido(pedido1)
+		gerli.registrarPedido(pedido2)
+		gerli.registrarPedido(pedido3)
+		gerli.registrarPedido(pedido4)
+		avellaneda.registrarPedido(pedido1)
+		avellaneda.registrarPedido(pedido2)
+		assert.equals(comercio.sucursalQueMasFacturo(),gerli)
+	}
+	
+	test "no vendio todos los talles"{
+		gerli.registrarPedido(pedido1)
+		gerli.registrarPedido(pedido2)
+		gerli.registrarPedido(pedido3)
+		gerli.registrarPedido(pedido4)
+		assert.that(!gerli.vendioTodosLosTalles())
+	}
+	
+	test "sucursales que vendieron todos los talles (ninguna)"{
+		assert.equals(comercio.sucursalesQueVendieronTodosLosTalles(),#{})
+	}
+	
 }

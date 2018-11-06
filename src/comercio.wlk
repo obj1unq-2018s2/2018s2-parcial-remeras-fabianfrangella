@@ -12,7 +12,7 @@ class Comercio {
 		sucursal.totalFacturado()
 
 	method pedidosRealizados(color){
-		sucursales.map{sucursal=> sucursal.pedidosRealizados(color)}
+		return sucursales.flatMap{sucursal=> sucursal.pedidosRealizados(color)}
 	}
 	
 	method pedidoMasCaro() {
@@ -21,15 +21,17 @@ class Comercio {
 	}
 
 	method tallesSinPedidosEntre(rango){
-		 
+		 return sucursales.flatMap{sucursal => sucursal.tallesSinPedidosEntre(rango)}
 	}
 
 	method sucursalQueMasFacturo(){
 		return sucursales.max{sucursal => sucursal.totalFacturado()}
 	}
 
-	method sucursalesQueVendieronTodosLosTalles(){}
-	
+	method sucursalesQueVendieronTodosLosTalles(){
+		return sucursales.filter{sucursal => sucursal.vendioTodosLosTalles()}
+	}
+		
 		
 }
 

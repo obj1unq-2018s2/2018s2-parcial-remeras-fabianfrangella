@@ -1,7 +1,7 @@
 class RemeraLisa {
 
-	var color
-	var talle
+	var color // String
+	var talle // Numero
 	var coloresBasicos = #{ "Blanco", "Negro", "Gris" }
 
 	method color() = color
@@ -86,7 +86,7 @@ class Empresa {
 
 	var precioPorCopyRight
 
-	method precioporCopyRight() = precioPorCopyRight
+	method precioPorCopyRight() = precioPorCopyRight
 
 }
 

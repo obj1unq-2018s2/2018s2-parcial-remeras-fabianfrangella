@@ -5,11 +5,14 @@ class Sucursal {
 	var pedidos = []
 	var totalFacturado = 0
 	var cantidadParaDescuento
-
+	var acuerdosComerciales = #{}
 	method registrarPedido(pedido) {
 		pedidos.add(pedido)
 		if (self.aplicaDescuento(pedido)) {
-			totalFacturado += pedido.precio() - pedido.totalDescuento()
+			totalFacturado += 
+				if (pedido.esDeMarca() && self.tieneAcuerdoComercial(pedido.marca())) 
+				pedido.precio() - pedido.descuentoPorAcuerdo() else 
+				pedido.precio() - pedido.totalDescuento()  
 		} else {
 			totalFacturado += pedido.precio()
 		}
@@ -20,6 +23,7 @@ class Sucursal {
 	}
 
 	method totalFacturado() = totalFacturado
+	
 
 	method pedidosRealizados(color) {
 		return pedidos.filter{ pedido => pedido.color() == color }
@@ -47,13 +51,15 @@ class Sucursal {
 	}
 	
 	method talles() = new Range(32,48)
+	
+	method tieneAcuerdoComercial(empresa) = acuerdosComerciales.contains(empresa)
 }
 
 class Pedido {
 
 	var modelo // remera
 	var cantidad
-
+	
 	method precio() {
 		return modelo.costo() * cantidad
 	}
@@ -63,5 +69,8 @@ class Pedido {
 	method cantidad() = cantidad
 	method totalDescuento() = modelo.porcentajeDeDescuento() * self.precio()
 	method color() = modelo.color()
+	method esDeMarca() = modelo.esDeMarca()
+	method descuentoPorAcuerdo() = modelo.descuentoPorAcuerdo() * self.precio()
+	method marca() = modelo.marca()
 }
 

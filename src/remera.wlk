@@ -35,6 +35,8 @@ class RemeraLisa {
 			return self.costoSegunRango() * 0.10
 		}
 	}
+	
+	method esDeMarca() = false
 
 }
 
@@ -50,7 +52,8 @@ class RemeraBordada inherits RemeraLisa {
 	override method costo() {
 		return super() + self.precioPorBordado()
 	}
-
+	override method esDeMarca() = false
+	
 }
 
 class RemeraSublimada inherits RemeraLisa {
@@ -65,15 +68,20 @@ class RemeraSublimada inherits RemeraLisa {
 		return super() + self.precioPorSublimado()
 	}
 	
-	override method porcentajeDeDescuento() = if (dibujoSublimado.esPropiedadDeUnaEmpresa()) 0.20 else 0.10
-
+	override method porcentajeDeDescuento() = 0.10
+	
+	override method esDeMarca() = true
+	
+	method descuentoPorAcuerdo() = dibujoSublimado.descuentoPorAcuerdo()
+	
+	method marca() = dibujoSublimado.empresa()
 }
 
 class DibujoSublimado {
 
 	var alto
 	var ancho
-	var empresa // instancia de la clase empresa o null
+	var property empresa // instancia de la clase empresa o null
 
 	method esPropiedadDeUnaEmpresa() = empresa != null
 
@@ -84,10 +92,12 @@ class DibujoSublimado {
 	method ancho() = ancho
 
 	method precioPorSuperficie() = alto * ancho * 0.5
-
+	
 	method precio() {
 		return self.precioPorSuperficie() + self.precioPorPropiedad()
 	}
+	
+	method descuentoPorAcuerdo() = if (self.esPropiedadDeUnaEmpresa()) empresa.descuentoPorAcuerdo() else 0
 }
 
 class Empresa {
@@ -95,6 +105,6 @@ class Empresa {
 	var precioPorCopyRight
 
 	method precioPorCopyRight() = precioPorCopyRight
-
+	method descuentoPorAcuerdo() = 0.20
 }
 

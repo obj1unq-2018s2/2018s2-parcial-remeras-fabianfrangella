@@ -9,15 +9,17 @@ class Sucursal {
 	method registrarPedido(pedido) {
 		pedidos.add(pedido)
 		if (self.aplicaDescuento(pedido)) {
-			totalFacturado += 
-				if (pedido.esDeMarca() && self.tieneAcuerdoComercial(pedido.marca())) 
-				pedido.precio() - pedido.descuentoPorAcuerdo() else 
-				pedido.precio() - pedido.totalDescuento()  
+			totalFacturado += self.precioDescuentoSegunPedido(pedido)
 		} else {
 			totalFacturado += pedido.precio()
 		}
 	}
 
+	method precioDescuentoSegunPedido(pedido){
+		return if (pedido.esDeMarca() && self.tieneAcuerdoComercial(pedido.marca())) 
+				pedido.precio() - pedido.descuentoPorAcuerdo() else 
+				pedido.precio() - pedido.totalDescuento()  
+	}
 	method aplicaDescuento(pedido) {
 		return pedido.cantidad() >= cantidadParaDescuento
 	}

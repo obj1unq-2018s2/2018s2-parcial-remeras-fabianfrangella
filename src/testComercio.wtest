@@ -20,12 +20,20 @@ describe "test comercio" {
 	// comercio
 	var comercio = new Comercio(sucursales = #{avellaneda,quilmes,gerli})
 	// pedidos
-	
 	var pedido1 = new Pedido(modelo = remeraLisa, cantidad = 20)
 	var pedido2 = new Pedido(modelo = remeraBordada, cantidad = 18)
 	var pedido3 = new Pedido(modelo = remeraSublimada,cantidad = 40)
 	var pedido4 = new Pedido(modelo = remeraLisa, cantidad = 20)
 	var pedidoDisney = new Pedido(modelo = remeraSublimada, cantidad = 20)
+	
+	
+	// Objetos para los tests de los ejemplos
+	var remeraLisa1 = new RemeraLisa(color = "Gris", talle = 42)
+	var pedidoLisas = new Pedido(modelo = remeraLisa1,cantidad=5)
+	var flores = new Sucursal(cantidadParaDescuento = 20,acuerdosComerciales=#{})
+	var avellanedaEjemplo = new Sucursal(cantidadParaDescuento = 4, acuerdosComerciales=#{disney})
+	var avellanedaSinAcuerdo = new Sucursal(cantidadParaDescuento = 4, acuerdosComerciales=#{})
+	var pedidoFrozen = new Pedido(modelo = remeraSublimada,cantidad = 4)
 	
 	test "registrar un pedido"{
 		avellaneda.registrarPedido(pedido1)
@@ -95,4 +103,32 @@ describe "test comercio" {
 		assert.equals(quilmes.totalFacturado(),4400)
 		assert.equals(avellaneda.totalFacturado(),4950)
 	}
+	
+	// Tests de los ejemplos
+	
+	/*Un pedido por 5 remeras lisas grises talle 42 tiene un precio de $500 en Flores ($100 de costo de la remera x 5 remeras, no le aplica descuento).
+	El mismo pedido en Avellaneda se vende a $450 (idem anterior pero con un 10% de descuento).
+	Suponiendo que tenemos acuerdo comercial con Disney y recibimos un pedido de 4 remeras de Frozen antes mencionadas (costo $275) en Flores se venderían a $1100 (= $275 x 4, no hay descuento).
+	En Avellaneda, ese mismo pedido costaría un 20% menos ($880).
+	Si no tuviéramos acuerdo comercial con Disney, el mismo pedido tendría sólo un 10% de descuento (ergo cuesta $990).
+	 */
+	 
+	 test "test 1"{
+	 	flores.registrarPedido(pedidoLisas)
+	 	assert.equals(flores.totalFacturado(),500)
+	 	avellanedaEjemplo.registrarPedido(pedidoLisas)
+	 	assert.equals(avellanedaEjemplo.totalFacturado(),450)
+	 }
+	 
+	 test "test 2"{
+	 	avellanedaEjemplo.registrarPedido(pedidoFrozen)
+	 	assert.equals(avellanedaEjemplo.totalFacturado(),880)
+	 	flores.registrarPedido(pedidoFrozen)
+	 	assert.equals(flores.totalFacturado(),1100)	 	
+	 }
+	 
+	 test "test 3"{
+	 	avellanedaSinAcuerdo.registrarPedido(pedidoFrozen)
+	 	assert.equals(avellanedaSinAcuerdo.totalFacturado(),990)
+	 }
 }

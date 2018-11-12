@@ -36,7 +36,7 @@ class RemeraLisa {
 		}
 	}
 	
-	method esDeMarca() = false
+	method esDeMarca() = false // TODO ???
 
 }
 
@@ -70,7 +70,7 @@ class RemeraSublimada inherits RemeraLisa {
 	
 	override method porcentajeDeDescuento() = 0.10
 	
-	override method esDeMarca() = true
+	override method esDeMarca() = true // TODO No todas las remeras sublimadas tienen marca, debería delegar en dibujo.
 	
 	method descuentoPorAcuerdo() = dibujoSublimado.descuentoPorAcuerdo()
 	
@@ -96,7 +96,7 @@ class DibujoSublimado {
 	method precio() {
 		return self.precioPorSuperficie() + self.precioPorPropiedad()
 	}
-	
+
 	method descuentoPorAcuerdo() = if (self.esPropiedadDeUnaEmpresa()) empresa.descuentoPorAcuerdo() else 0
 }
 

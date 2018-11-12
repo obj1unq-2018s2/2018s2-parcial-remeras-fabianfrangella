@@ -93,7 +93,10 @@ describe "test comercio" {
 		var pedidoNuevo = new Pedido(modelo = remera1,cantidad = 1)
 		gerli.registrarPedido(pedidoNuevo)
 		assert.equals(gerli.totalFacturado(),80)
-		remera1.cambiarCostoChica(50)
+
+		// TODO Esto no es lo que pide el enunciado.
+		// Y fallaría si preguntaras el pedido más caro.
+		remera1.cambiarCostoChica(50) 
 		assert.equals(gerli.totalFacturado(),80)
 	}
 	

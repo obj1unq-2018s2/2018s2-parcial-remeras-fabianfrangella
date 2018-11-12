@@ -12,12 +12,12 @@ class Sucursal {
 		if (self.aplicaDescuento(pedido)) {
 			totalFacturado += self.precioDescuentoSegunPedido(pedido)
 		} else {
-			totalFacturado += pedido.precio() - self.descuentoDeMarca(pedido)
+			totalFacturado += pedido.precio() - self.descuentoDeMarca(pedido) // TODO No es lo que dice el enunciado.
 		}
 	}
 
 	method descuentoDeMarca(pedido) {
-		if (self.esDeMarcaYTieneAcuerdo(pedido)) {
+		if (self.esDeMarcaYTieneAcuerdo(pedido)) { // TODO Esto es equivalente a preguntar por el tipo, deberías delegar para evitar este if.
 			return	pedido.descuentoPorAcuerdo() 	
 		} else {
 			return 0		
@@ -28,6 +28,7 @@ class Sucursal {
 	method esDeMarcaYTieneAcuerdo(pedido) = pedido.esDeMarca() && self.tieneAcuerdoComercial(pedido.marca())
 	
 	method precioDescuentoSegunPedido(pedido){
+		// TODO Delegar y usar polimorfismo.
 		return if (pedido.esDeMarca() && self.tieneAcuerdoComercial(pedido.marca())) 
 				pedido.precio() - pedido.descuentoPorAcuerdo() else 
 				pedido.precio() - pedido.totalDescuento()  
@@ -46,6 +47,7 @@ class Sucursal {
 	method pedidoMasCaro() {
 		return pedidos.max{ 
 			pedido => 
+			// TODO Repite código.
 				if (self.aplicaDescuento(pedido)) pedido.precio() - pedido.totalDescuento()
 					else pedido.precio()
 		}

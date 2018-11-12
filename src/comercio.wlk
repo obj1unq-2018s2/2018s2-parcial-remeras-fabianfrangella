@@ -20,7 +20,7 @@ class Comercio {
 			.max{ pedido => pedido.precio()}
 	}
 
-	method tallesSinPedidosEntre(rango){
+	method tallesSinPedidosEntre(rango){ // TODO El rango no debería ser un parámetro.
 		 return sucursales.flatMap{sucursal => sucursal.tallesSinPedidosEntre(rango)}
 	}
 
